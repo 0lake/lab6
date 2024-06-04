@@ -107,7 +107,7 @@ public class Main {
         commandManager.register("update", new Update<>(collectionManager));
         commandManager.register("remove_by_id", new RemoveById<>(collectionManager));
         commandManager.register("clear", new Clear(collectionManager));
-        commandManager.register("save", new Save(collectionManager));
+
         commandManager.register("remove_greater", new RemoveGreater<>(collectionManager));
         commandManager.register("remove_lower", new RemoveLower<>(collectionManager));
         commandManager.register("add_if_min", new AddIfMin<>(collectionManager));
