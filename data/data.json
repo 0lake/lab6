@@ -1,26 +1,5 @@
 [
   {
-    "name": "1",
-    "coordinates": {
-      "x": 1,
-      "y": 1111.0
-    },
-    "creationDate": "2024-06-04",
-    "area": 1,
-    "numberOfRooms": 1,
-    "height": 1,
-    "kitchenArea": 1.0,
-    "view": "BAD",
-    "house": {
-      "name": "4",
-      "year": 4,
-      "numberOfFlatsOnFloor": 4,
-      "numberOfLifts": 4
-    },
-    "userId": null,
-    "id": 1
-  },
-  {
     "name": "22",
     "coordinates": {
       "x": 22222,
