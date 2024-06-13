@@ -3,50 +3,48 @@ package com.general.network;
 import java.util.Objects;
 
 /**
- * The {@code Request} class represents a request sent over the network.
- * It encapsulates information about a command to be executed, along with optional data associated with the command.
- * Requests can be constructed with different combinations of parameters to convey different types of information.
- *
- 
+ * Класс {@code Request} представляет запрос, отправленный по сети.
+ * Он инкапсулирует информацию о команде, которую нужно выполнить, а также необязательные данные, связанные с командой.
+ * Запросы могут быть созданы с различными комбинациями параметров для передачи различных типов информации.
  */
 public class Request extends Sendable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a request with the specified success status, command name, and data payload.
+     * Создает запрос с указанным статусом успешности, именем команды и данными.
      *
-     * @param success the success status of the request
-     * @param name    the name of the command associated with the request
-     * @param data    the data payload associated with the request
+     * @param success успешность выполнения запроса
+     * @param name    имя команды, связанной с запросом
+     * @param data    данные, связанные с запросом
      */
     public Request(boolean success, String name, Object data) {
         super(success, name, data);
     }
 
     /**
-     * Constructs a request with the specified command name and data payload, assuming success.
+     * Создает запрос с указанным именем команды и данными, считая выполнение успешным.
      *
-     * @param name the name of the command associated with the request
-     * @param data the data payload associated with the request
+     * @param name имя команды, связанной с запросом
+     * @param data данные, связанные с запросом
      */
     public Request(String name, Object data) {
         this(true, name, data);
     }
 
     /**
-     * Returns the name of the command associated with the request.
+     * Возвращает имя команды, связанной с запросом.
      *
-     * @return the name of the command
+     * @return имя команды
      */
     public String getCommand() {
         return getMessage();
     }
 
     /**
-     * Indicates whether some other object is "equal to" this one.
+     * Определяет, равен ли этот объект другому объекту.
      *
-     * @param o the reference object with which to compare
-     * @return true if this object is the same as the o argument; false otherwise
+     * @param o объект, с которым сравнивается текущий объект
+     * @return true, если этот объект равен переданному объекту, иначе false
      */
     @Override
     public boolean equals(Object o) {
@@ -57,9 +55,9 @@ public class Request extends Sendable {
     }
 
     /**
-     * Returns a hash code value for the object.
+     * Возвращает хэш-код для объекта.
      *
-     * @return a hash code value for this object
+     * @return хэш-код для этого объекта
      */
     @Override
     public int hashCode() {
@@ -67,10 +65,10 @@ public class Request extends Sendable {
     }
 
     /**
-     * Returns a string representation of the request.
-     * If a data payload is present, it is appended to the string representation.
+     * Возвращает строковое представление запроса.
+     * Если данные присутствуют, они добавляются к строковому представлению.
      *
-     * @return a string representation of the request
+     * @return строковое представление запроса
      */
     @Override
     public String toString() {

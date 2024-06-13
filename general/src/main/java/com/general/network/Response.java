@@ -1,49 +1,47 @@
 package com.general.network;
 
 /**
- * The {@code Response} class represents a response sent over the network.
- * It encapsulates information about the success or failure of an operation, along with an optional message and data payload.
- * Responses can be constructed with different combinations of parameters to convey different types of information.
- *
- 
+ * Класс {@code Response} представляет ответ, отправленный по сети.
+ * Он инкапсулирует информацию о успешности или неуспешности операции, а также необязательное сообщение и данные.
+ * Ответы могут быть созданы с различными комбинациями параметров для передачи различных типов информации.
  */
 public class Response extends Sendable {
 
     /**
-     * Constructs a response with the specified success status, message, and data payload.
+     * Создает ответ с указанным статусом успешности, сообщением и данными.
      *
-     * @param success the success status of the response
-     * @param message the message associated with the response
-     * @param data    the data payload associated with the response
+     * @param success успешность выполнения операции
+     * @param message сообщение, связанное с ответом
+     * @param data    данные, связанные с ответом
      */
     public Response(boolean success, String message, Object data) {
         super(success, message, data);
     }
 
     /**
-     * Constructs a response with the specified success status and message.
+     * Создает ответ с указанным статусом успешности и сообщением.
      *
-     * @param success the success status of the response
-     * @param message the message associated with the response
+     * @param success успешность выполнения операции
+     * @param message сообщение, связанное с ответом
      */
     public Response(boolean success, String message) {
         super(success, message, null);
     }
 
     /**
-     * Constructs a response with the specified success status.
+     * Создает ответ с указанным статусом успешности.
      *
-     * @param success the success status of the response
+     * @param success успешность выполнения операции
      */
     public Response(boolean success) {
         super(success, null, null);
     }
 
     /**
-     * Returns a string representation of the response.
-     * If a message and data payload are present, they are appended to the string representation.
+     * Возвращает строковое представление ответа.
+     * Если сообщение и данные присутствуют, они добавляются к строковому представлению.
      *
-     * @return a string representation of the response
+     * @return строковое представление ответа
      */
     @Override
     public String toString() {

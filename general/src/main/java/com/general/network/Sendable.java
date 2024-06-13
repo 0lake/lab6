@@ -6,51 +6,49 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * The {@code Sendable} class represents an object that can be sent over the network.
- * It encapsulates information about the success status, message, data payload, and optionally user credentials.
- * This class serves as an abstract base class for specific types of sendable objects.
- *
- 
+ * Класс {@code Sendable} представляет объект, который может быть отправлен по сети.
+ * Он инкапсулирует информацию о статусе успешности, сообщении, данных и, по желанию, учетных данных пользователя.
+ * Этот класс служит абстрактным базовым классом для конкретных типов объектов, которые могут быть отправлены.
  */
 @Getter
 @Setter
 public abstract class Sendable implements Serializable {
     /**
-     * Indicates whether the operation associated with this object was successful.
+     * Указывает, была ли успешной операция, связанная с этим объектом.
      */
     protected final boolean success;
 
     /**
-     * Additional message associated with the operation, typically used for error messages.
+     * Дополнительное сообщение, связанное с операцией, обычно используется для сообщений об ошибках.
      */
     protected final String message;
 
     /**
-     * Data payload associated with the object, which can vary depending on the specific subclass.
+     * Данные, связанные с объектом, которые могут варьироваться в зависимости от конкретного подкласса.
      */
     protected final Object data;
 
     /**
-     * Login credentials associated with the request, if applicable.
+     * Логин пользователя, связанный с запросом, если применимо.
      */
     protected String login;
 
     /**
-     * Password credentials associated with the request, if applicable.
+     * Пароль пользователя, связанный с запросом, если применимо.
      */
     protected String password;
 
     /**
-     * User ID associated with the request, if applicable.
+     * Идентификатор пользователя, связанный с запросом, если применимо.
      */
     protected Integer userId;
 
     /**
-     * Constructs a sendable object with the specified success status, message, and data payload.
+     * Создает объект, который может быть отправлен с указанным статусом успешности, сообщением и данными.
      *
-     * @param success indicates whether the operation associated with this object was successful
-     * @param message additional message associated with the operation
-     * @param data    data payload associated with the object
+     * @param success указывает, была ли успешной операция, связанная с этим объектом
+     * @param message дополнительное сообщение, связанное с операцией
+     * @param data    данные, связанные с объектом
      */
     public Sendable(final boolean success, String message, final Object data) {
         this.success = success;

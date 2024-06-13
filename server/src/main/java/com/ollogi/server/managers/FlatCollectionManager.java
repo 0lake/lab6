@@ -40,7 +40,7 @@ public class FlatCollectionManager extends CollectionManager<Flat> {
 
         // Устанавливаем nextId на 1 больше максимального ID в коллекции
         Optional<Long> maxId = sortedCollection.stream()
-                .map(Flat::getId)
+                .map(flat -> flat.getId())
                 .max(Long::compareTo);
         setNextId(maxId.orElse(0L) + 1);
     }

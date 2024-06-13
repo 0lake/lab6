@@ -13,9 +13,8 @@ import java.io.ObjectInputStream;
 import java.nio.channels.SocketChannel;
 
 /**
- * Handles incoming requests from clients on a separate thread.
- * This class reads the request, processes it, and sends back a response.
- *
+ * Обрабатывает входящие запросы от клиентов в отдельном потоке.
+ * Этот класс читает запрос, обрабатывает его и отправляет ответ.
  */
 public class Handler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger("Handler");
@@ -28,10 +27,10 @@ public class Handler implements Runnable {
     private final ByteArrayOutputStream byteArrayOutputStream;
 
     /**
-     * Constructs a new Handler object.
+     * Конструктор для создания нового объекта Handler.
      *
-     * @param clientSocketChannel   The socket channel connected to the client.
-     * @param byteArrayOutputStream The output stream containing the client's request.=
+     * @param clientSocketChannel   Канал сокета, подключенный к клиенту.
+     * @param byteArrayOutputStream Поток вывода, содержащий запрос клиента.
      */
     public Handler(SocketChannel clientSocketChannel, ByteArrayOutputStream byteArrayOutputStream) {
         this.clientSocketChannel = clientSocketChannel;
@@ -39,8 +38,8 @@ public class Handler implements Runnable {
     }
 
     /**
-     * Entry point for the Handler's execution.
-     * Reads the request, processes it, and sends the appropriate response.
+     * Точка входа для выполнения Handler.
+     * Читает запрос, обрабатывает его и отправляет соответствующий ответ.
      */
     @Override
     public void run() {
@@ -49,25 +48,25 @@ public class Handler implements Runnable {
             try (ObjectInputStream objectInputStream = new ObjectInputStream(new ByteArrayInputStream(requestBytes))) {
                 Request request = (Request) objectInputStream.readObject();
                 if ("exit".equals(request.getCommand())) {
-                    logger.info("Client {} terminated", clientSocketChannel.getRemoteAddress());
+                    logger.info("Клиент {} завершил работу", clientSocketChannel.getRemoteAddress());
                     clientSocketChannel.close();
                     if(commandManager.handle(SAVE_REQUEST).isSuccess())
-                        logger.info("Collection saved");
+                        logger.info("Коллекция сохранена");
                     return;
                 }
                 handleRequest(request);
             }
         } catch (Exception e) {
-            logger.error("Error processing request: {}", e.getMessage());
+            logger.error("Ошибка обработки запроса: {}", e.getMessage());
             sendErrorResponse(clientSocketChannel);
         }
     }
 
     /**
-     * Handles the incoming request by delegating it to the CommandManager.
-     * Sends the processed response back to the client.
+     * Обрабатывает входящий запрос, передавая его в CommandManager.
+     * Отправляет обработанный ответ обратно клиенту.
      *
-     * @param request The request object received from the client.
+     * @param request Объект запроса, полученный от клиента.
      */
     private void handleRequest(Request request) {
         Response response = commandManager.handle(request);
@@ -75,12 +74,12 @@ public class Handler implements Runnable {
     }
 
     /**
-     * Sends an error response to the client, indicating that the request was invalid.
+     * Отправляет клиенту ответ об ошибке, указывая на то, что запрос был недействительным.
      *
-     * @param channel The socket channel to send the response to.
+     * @param channel Канал сокета, в который отправляется ответ.
      */
     private void sendErrorResponse(SocketChannel channel) {
-        Response response = new Response(false, "Invalid request");
+        Response response = new Response(false, "Недействительный запрос");
         TCPWriter.sendResponse(channel, response);
     }
 }

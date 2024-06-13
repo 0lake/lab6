@@ -11,38 +11,36 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 /**
- * Utility class for sending responses to clients over TCP connections.
- * This class provides methods to serialize and send response objects through a SocketChannel.
- *
- 
+ * Утилитарный класс для отправки ответов клиентам по TCP-соединениям.
+ * Этот класс предоставляет методы для сериализации и отправки объектов ответов через SocketChannel.
  */
 public class TCPWriter {
     private static final Logger logger = LoggerFactory.getLogger("TCPWriter");
 
     /**
-     * Sends a response object to the client through the given socket channel.
-     * The response is serialized and written to the channel in a non-blocking manner.
+     * Отправляет объект ответа клиенту через указанный сокет-канал.
+     * Ответ сериализуется и записывается в канал неблокирующим способом.
      *
-     * @param clientSocketChannel The socket channel connected to the client.
-     * @param response            The response object to be sent.
+     * @param clientSocketChannel Сокет-канал, подключенный к клиенту.
+     * @param response            Объект ответа для отправки.
      */
     public static void sendResponse(SocketChannel clientSocketChannel, Response response) {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
 
-            logger.debug("Sending response to client {}", clientSocketChannel.getRemoteAddress());
+            logger.debug("Отправка ответа клиенту {}", clientSocketChannel.getRemoteAddress());
             objectOutputStream.writeObject(response);
             objectOutputStream.flush();
 
             byte[] responseBytes = byteArrayOutputStream.toByteArray();
             ByteBuffer buffer = ByteBuffer.wrap(responseBytes);
 
-            // Write the response bytes to the channel
+            // Запись байтов ответа в канал
             while (buffer.hasRemaining()) {
                 clientSocketChannel.write(buffer);
             }
         } catch (IOException e) {
-            logger.error("Error sending response: {}", e.getMessage());
+            logger.error("Ошибка отправки ответа: {}", e.getMessage());
         }
     }
 }

@@ -2,6 +2,27 @@
   {
     "name": "22",
     "coordinates": {
+      "x": 4,
+      "y": 43.0
+    },
+    "creationDate": "2024-06-08",
+    "area": 4,
+    "numberOfRooms": 3,
+    "height": 4,
+    "kitchenArea": 3.0,
+    "view": "BAD",
+    "house": {
+      "name": "4",
+      "year": 3,
+      "numberOfFlatsOnFloor": 4,
+      "numberOfLifts": 3
+    },
+    "userId": null,
+    "id": 4
+  },
+  {
+    "name": "22",
+    "coordinates": {
       "x": 22222,
       "y": 2222.0
     },

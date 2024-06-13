@@ -10,27 +10,26 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 
 /**
- * A runnable task for reading incoming requests from a client's socket channel.
- * It reads data from the channel, parses it, and delegates further processing to a handler.
- * This class ensures efficient non-blocking reading using Java NIO.
- *
+ * Задача, выполняемая в отдельном потоке, для чтения входящих запросов из канала сокета клиента.
+ * Этот класс читает данные из канала, парсит их и передает дальнейшую обработку обработчику.
+ * Обеспечивает эффективное неблокирующее чтение с использованием Java NIO.
  */
 public class TCPReader implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger("TCPReader");
     private final SelectionKey key;
 
     /**
-     * Constructs a TCPReader with the given selection key.
+     * Создает TCPReader с указанным ключом выбора.
      *
-     * @param key The selection key associated with the client's socket channel.
+     * @param key Ключ выбора, связанный с каналом сокета клиента.
      */
     public TCPReader(SelectionKey key) {
         this.key = key;
     }
 
     /**
-     * Reads data from the client's socket channel and delegates further processing to a handler.
-     * This method is the entry point for the task execution.
+     * Читает данные из канала сокета клиента и передает дальнейшую обработку обработчику.
+     * Этот метод является точкой входа для выполнения задачи.
      */
     @Override
     public void run() {
@@ -38,10 +37,10 @@ public class TCPReader implements Runnable {
     }
 
     /**
-     * Reads the incoming request from the client's socket channel.
-     * This method handles the reading process, ensuring non-blocking operation and handling partial reads.
+     * Читает входящий запрос из канала сокета клиента.
+     * Этот метод обрабатывает процесс чтения, обеспечивая неблокирующую работу и обработку частичных чтений.
      *
-     * @return true if the reading and parsing of the request is successful, false otherwise.
+     * @return true, если чтение и парсинг запроса прошли успешно, иначе false.
      */
     private boolean readRequest() {
         SocketChannel clientSocketChannel = (SocketChannel) key.channel();
@@ -49,7 +48,7 @@ public class TCPReader implements Runnable {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
         try {
-            logger.debug("Reading request from {}", clientSocketChannel.getRemoteAddress());
+            logger.debug("Чтение запроса от {}", clientSocketChannel.getRemoteAddress());
             int bytesRead;
             while ((bytesRead = clientSocketChannel.read(buffer)) > 0) {
                 buffer.flip();
@@ -57,34 +56,34 @@ public class TCPReader implements Runnable {
                 buffer.clear();
             }
             if (bytesRead == -1) {
-                // Connection closed by client
+                // Соединение закрыто клиентом
                 closeConnection(clientSocketChannel);
                 return false;
             }
         } catch (IOException e) {
-            logger.error("Error reading data: {}", e.getMessage());
+            logger.error("Ошибка чтения данных: {}", e.getMessage());
             closeConnection(clientSocketChannel);
             return false;
         }
 
-        // Start a new handler to process the request
+        // Запускаем новый обработчик для обработки запроса
         new Handler(clientSocketChannel, byteArrayOutputStream).run();
         return true;
     }
 
     /**
-     * Closes the connection to the client.
-     * This method handles closing the channel and canceling the selection key.
+     * Закрывает соединение с клиентом.
+     * Этот метод обрабатывает закрытие канала и отмену ключа выбора.
      *
-     * @param clientSocketChannel The client's socket channel to be closed.
+     * @param clientSocketChannel Канал сокета клиента, который нужно закрыть.
      */
     private void closeConnection(SocketChannel clientSocketChannel) {
         try {
             key.cancel();
             clientSocketChannel.close();
-            logger.info("Connection closed: {}", clientSocketChannel.getRemoteAddress());
+            logger.info("Соединение закрыто: {}", clientSocketChannel.getRemoteAddress());
         } catch (IOException e) {
-            logger.error("Error closing channel: {}", e.getMessage());
+            logger.error("Ошибка закрытия канала: {}", e.getMessage());
         }
     }
 }

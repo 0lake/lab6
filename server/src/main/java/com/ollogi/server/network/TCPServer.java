@@ -10,10 +10,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * A TCP server that listens for incoming connections and handles them asynchronously.
- * The server is designed to be non-blocking, utilizing Java NIO and a selector to manage multiple connections.
- * It uses a thread pool to handle read operations asynchronously.
-*/
+ * TCP-сервер, прослушивающий входящие соединения и обрабатывающий их асинхронно.
+ * Сервер разработан для неблокирующей работы, используя Java NIO и селектор для управления несколькими соединениями.
+ * Он использует пул потоков для асинхронной обработки операций чтения.
+ */
 public class TCPServer {
     private static final Logger logger = LoggerFactory.getLogger("TCPServer");
     private final int port;
@@ -21,17 +21,17 @@ public class TCPServer {
     private ServerSocketChannel serverSocketChannel;
 
     /**
-     * Constructs a TCP server with the specified port.
+     * Создает TCP-сервер с указанным портом.
      *
-     * @param port The port on which the server will listen for incoming connections.
+     * @param port Порт, на котором сервер будет прослушивать входящие соединения.
      */
     public TCPServer(int port) {
         this.port = port;
     }
 
     /**
-     * Starts the TCP server, initializing the server socket channel and handling incoming connections.
-     * This method contains the main server loop, which continuously waits for events on the registered channels.
+     * Запускает TCP-сервер, инициализируя канал серверного сокета и обрабатывая входящие соединения.
+     * Этот метод содержит основной цикл сервера, который непрерывно ожидает событий на зарегистрированных каналах.
      */
     public void start() {
         initServerSocketChannel();
@@ -49,20 +49,20 @@ public class TCPServer {
     }
 
     /**
-     * Waits for events on the registered channels.
-     * This method blocks until events occur or until the thread is interrupted.
+     * Ожидает событий на зарегистрированных каналах.
+     * Этот метод блокируется, пока не произойдут события или пока поток не будет прерван.
      */
     private void select() {
         try {
             selector.select();
         } catch (Exception e) {
-            logger.error("Error selecting thread: {}", e.getMessage());
+            logger.error("Ошибка выбора потока: {}", e.getMessage());
         }
     }
 
     /**
-     * Initializes the server socket channel and registers it with the selector.
-     * This method sets up the server to accept incoming connections on the specified port.
+     * Инициализирует канал серверного сокета и регистрирует его в селекторе.
+     * Этот метод настраивает сервер для принятия входящих соединений на указанном порту.
      */
     private void initServerSocketChannel() {
         try {
@@ -71,17 +71,17 @@ public class TCPServer {
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(new InetSocketAddress(port));
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-            logger.info("Server started on port {}", port);
+            logger.info("Сервер запущен на порту {}", port);
         } catch (ClosedChannelException e) {
-            logger.error("Channel closed: {}", e.getMessage());
+            logger.error("Канал закрыт: {}", e.getMessage());
         } catch (IOException e) {
-            logger.error("Error opening server socket: {}", e.getMessage());
+            logger.error("Ошибка открытия серверного сокета: {}", e.getMessage());
         }
     }
 
     /**
-     * Handles an incoming connection request.
-     * This method accepts the connection, configures it as non-blocking, and registers it with the selector for read events.
+     * Обрабатывает запрос на входящее соединение.
+     * Этот метод принимает соединение, настраивает его как неблокирующее и регистрирует его в селекторе для событий чтения.
      */
     private void handleAccept() {
         try {
@@ -89,10 +89,10 @@ public class TCPServer {
             if (client != null) {
                 client.configureBlocking(false);
                 client.register(selector, SelectionKey.OP_READ);
-                logger.info("New connection: {}", client.getRemoteAddress());
+                logger.info("Новое соединение: {}", client.getRemoteAddress());
             }
         } catch (IOException e) {
-            logger.error("Error accepting connection: {}", e.getMessage());
+            logger.error("Ошибка приема соединения: {}", e.getMessage());
         }
     }
 }

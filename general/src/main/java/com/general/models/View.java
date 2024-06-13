@@ -27,7 +27,8 @@ public enum View implements Serializable {
      */
     private static String[] valuesAsStringArray() {
         return java.util.Arrays.stream(values())
-                .map(View::name)
-                .toArray(String[]::new);
+                .map(view -> view.name()) // заменено View::name
+                .toArray(size -> new String[size]); // заменено String[]::new
     }
+
 }

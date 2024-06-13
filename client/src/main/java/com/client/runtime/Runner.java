@@ -15,25 +15,38 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Класс Runner представляет собой исполняющую среду для клиентской части приложения.
+ * Он обеспечивает интерактивный и скриптовый режимы работы с сервером через TCP-клиент.
+ */
 public class Runner {
+    /**
+     * Перечисление ExitCode определяет возможные коды завершения для Runner.
+     */
     public enum ExitCode {
-        OK,
-        ERROR,
-        EXIT,
+        OK,     // Успешное завершение
+        ERROR,  // Ошибка
+        EXIT    // Завершение работы
     }
 
-    private final Console console;
-    private final TCPClient tcpClient;
-    private final List<String> commandHistory = new ArrayList<>();
-    private final List<String> scriptStack = new ArrayList<>();
+    private final Console console;        // Консоль для взаимодействия с пользователем
+    private final TCPClient tcpClient;    // TCP-клиент для обмена данными с сервером
+    private final List<String> commandHistory = new ArrayList<>(); // История выполненных команд
+    private final List<String> scriptStack = new ArrayList<>();   // Стек скриптов
 
+    /**
+     * Конструктор для создания объекта Runner.
+     *
+     * @param tcpClient TCP-клиент для обмена данными с сервером
+     * @param console   Консоль для взаимодействия с пользователем
+     */
     public Runner(TCPClient tcpClient, Console console) {
         this.tcpClient = tcpClient;
         this.console = console;
     }
 
     /**
-     * Интерактивный режим
+     * Интерактивный режим работы.
      */
     public void interactiveMode() {
         var userScanner = Interrogator.getUserScanner();
@@ -50,11 +63,8 @@ public class Runner {
                     commandHistory.add(userCommand[0]);
                     commandStatus = launchCommand(userCommand);
                 } catch (NoSuchElementException exception) {
-                    // Обработка ошибки "Пользовательский ввод не обнаружен!"
                     console.printError("Пользовательский ввод не обнаружен! Попытка автоматического завершения работы...");
-                    // Запуск команды save
                     commandStatus = launchCommand(new String[]{"save", ""});
-                    // Запуск команды exit
                     if (commandStatus == ExitCode.OK) {
                         commandStatus = launchCommand(new String[]{"exit", ""});
                     }
@@ -65,10 +75,8 @@ public class Runner {
             console.printError("Непредвиденная ошибка!");
         } catch (Exception exception) {
             console.printError("Произошла ошибка: " + exception.getMessage());
-            // Обработка других исключений, если необходимо
         }
     }
-
 
     /**
      * Режим для запуска скрипта.
@@ -120,6 +128,8 @@ public class Runner {
             console.printError("Скрипты не могут вызываться рекурсивно!");
         } catch (IllegalStateException exception) {
             console.printError("Непредвиденная ошибка!");
+
+
             System.exit(0);
         } finally {
             scriptStack.remove(scriptStack.size() - 1);
