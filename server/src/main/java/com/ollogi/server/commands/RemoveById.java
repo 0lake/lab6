@@ -9,6 +9,8 @@ import com.general.models.base.Element;
 import com.general.network.Request;
 import com.general.network.Response;
 
+import java.util.Optional;
+
 /**
  * Команда 'remove_by_id'. Удаляет элемент из коллекции.
  */
@@ -37,15 +39,19 @@ public class RemoveById<T extends Element & Comparable<T>> extends Command {
                 throw new CollectionIsEmptyException();
             }
 
-            // Ищем элемент по ID
-            T elementToRemove = collectionManager.getById(id);
-            if (elementToRemove == null) {
+            // Ищем элемент по ID с использованием Stream API
+            Optional<T> elementToRemove = collectionManager.getCollection().stream()
+                    .filter(element -> element.getId().equals(id))
+                    .findFirst();
+
+            if (elementToRemove.isEmpty()) {
                 throw new NotFoundException();
             }
 
             // Удаляем элемент из коллекции
-            collectionManager.removeFromCollection(elementToRemove);
+            collectionManager.removeFromCollection(elementToRemove.get());
             return new Response(true, "Элемент успешно удален.");
+
 
         } catch (WrongAmountOfElementsException exception) {
             return new Response(false, "Неправильное количество аргументов! Правильное использование: '" + getName() + "'");

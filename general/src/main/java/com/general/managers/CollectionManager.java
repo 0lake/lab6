@@ -8,8 +8,10 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Абстрактный класс для управления коллекцией обобщенного типа.
@@ -168,6 +170,7 @@ public abstract class CollectionManager<T extends Element & Comparable<T>> {
     public Long addToCollection(T element) {
         element.setId(nextId++);
         collection.add(element);
+        sortCollection(); // Сортировка после добавления элемента
         return element.getId();
     }
 
@@ -178,6 +181,7 @@ public abstract class CollectionManager<T extends Element & Comparable<T>> {
      */
     public void removeFromCollection(T element) {
         collection.remove(element);
+        sortCollection(); // Сортировка после удаления элемента
     }
 
     /**
@@ -194,6 +198,26 @@ public abstract class CollectionManager<T extends Element & Comparable<T>> {
      * @return ID элемента.
      */
     protected abstract Long getId(T element);
+
+    /**
+     * Сортирует коллекцию по имени.
+     */
+    public void sortCollection() {
+        Collection<T> sortedCollection = collection.stream()
+                .sorted(Comparator.comparing(T::getName))
+                .collect(Collectors.toList());
+        setCollection(sortedCollection);
+    }
+
+    /**
+     * Устанавливает коллекцию.
+     *
+     * @param collection новая коллекция
+     */
+    private void setCollection(Collection<T> collection) {
+        this.collection.clear();
+        this.collection.addAll(collection);
+    }
 
     @Override
     public String toString() {

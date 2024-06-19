@@ -1,63 +1,63 @@
 [
   {
-    "name": "22",
+    "name": "1",
     "coordinates": {
-      "x": 4,
-      "y": 43.0
+      "x": 2,
+      "y": 2.0
     },
-    "creationDate": "2024-06-08",
-    "area": 4,
-    "numberOfRooms": 3,
-    "height": 4,
-    "kitchenArea": 3.0,
+    "creationDate": "2024-06-20",
+    "area": 2,
+    "numberOfRooms": 2,
+    "height": 2,
+    "kitchenArea": 2.0,
     "view": "BAD",
     "house": {
-      "name": "4",
-      "year": 3,
-      "numberOfFlatsOnFloor": 4,
-      "numberOfLifts": 3
-    },
-    "userId": null,
-    "id": 4
-  },
-  {
-    "name": "22",
-    "coordinates": {
-      "x": 22222,
-      "y": 2222.0
-    },
-    "creationDate": "2024-06-04",
-    "area": 2222,
-    "numberOfRooms": 2222,
-    "height": 22222,
-    "kitchenArea": 22222.0,
-    "view": "BAD",
-    "house": {
-      "name": "32",
-      "year": 22,
-      "numberOfFlatsOnFloor": 22,
-      "numberOfLifts": 22
+      "name": "2",
+      "year": 2,
+      "numberOfFlatsOnFloor": 2,
+      "numberOfLifts": 2
     },
     "userId": null,
     "id": 3
   },
   {
-    "name": "4444",
+    "name": "Alpha",
     "coordinates": {
-      "x": 444,
-      "y": 444.0
+      "x": 4,
+      "y": 4.0
     },
-    "creationDate": "2024-06-04",
-    "area": 4444,
-    "numberOfRooms": 4444,
-    "height": 4444,
-    "kitchenArea": 4444.0,
+    "creationDate": "2024-06-20",
+    "area": 4,
+    "numberOfRooms": 4,
+    "height": 4,
+    "kitchenArea": 4.0,
     "view": "BAD",
     "house": {
-      "name": "4444",
-      "year": 4444,
-      "numberOfFlatsOnFloor": 4444,
-      "numberOfLifts": 4444
+      "name": "4",
+      "year": 4,
+      "numberOfFlatsOnFloor": 4,
+      "numberOfLifts": 4
+    },
+    "userId": null,
+    "id": 1
+  },
+  {
+    "name": "Beta",
+    "coordinates": {
+      "x": 4,
+      "y": 4.0
+    },
+    "creationDate": "2024-06-20",
+    "area": 4,
+    "numberOfRooms": 5,
+    "height": 5,
+    "kitchenArea": 5.0,
+    "view": "BAD",
+    "house": {
+      "name": "5",
+      "year": 5,
+      "numberOfFlatsOnFloor": 5,
+      "numberOfLifts": 5
     },
     "userId": null,
     "id": 2

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public abstract class Element implements Validatable, Serializable {
     private Long id;
+    public abstract String getName();
 
     public Long getId() {
         return id;

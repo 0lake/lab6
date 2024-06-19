@@ -6,6 +6,7 @@ import com.general.managers.CollectionManager;
 import com.general.models.base.Element;
 import com.general.network.Request;
 import com.general.network.Response;
+import com.ollogi.server.managers.FlatCollectionManager;
 
 /**
  * Команда 'add'. Добавляет новый элемент в коллекцию.
@@ -29,8 +30,8 @@ public class Add<T extends Element & Comparable<T>> extends Command {
             if (request.getData() == null) throw new WrongAmountOfElementsException();
             T element = (T) request.getData();
             Long newId = collectionManager.addToCollection(element);
-            return new Response(true, "Элемент успешно добавлен!", newId);
 
+            return new Response(true, "Элемент успешно добавлен!", newId);
         } catch (WrongAmountOfElementsException exception) {
             return new Response(false, "Неправильное количество аргументов!");
         } catch (Exception unknownException) {

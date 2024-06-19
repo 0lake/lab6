@@ -33,6 +33,7 @@ public class AddIfMin<T extends Element & Comparable<T>> extends Command {
             Optional<T> minValue = minValue();
             if (minValue.isPresent() && element.compareTo(minValue.get()) < 0) {
                 Long newId = collectionManager.addToCollection(element);
+                collectionManager.sortCollection();
                 return new Response(true, "Квартира успешно добавлена!", newId);
             } else {
                 return new Response(false, "Квартира не добавлена, значение не минимальное");

@@ -7,8 +7,8 @@ import com.general.models.base.Element;
 import com.general.network.Request;
 import com.general.network.Response;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Команда 'remove_greater {element}'. Удаляет из коллекции все элементы, превышающие заданный.
@@ -30,39 +30,35 @@ public class RemoveGreater<T extends Element & Comparable<T>> extends Command {
         try {
             if (request.getData() == null) throw new WrongAmountOfElementsException();
 
+            @SuppressWarnings("unchecked")
             T element = (T) request.getData();
 
-            int removedFlatsCount = removeGreater(element);
-            return new Response(true, "Удалено " + removedFlatsCount + " элементов, превышающих заданный.");
+            int removedElementsCount = removeGreater(element);
+            return new Response(true, "Удалено " + removedElementsCount + " элементов, превышающих заданный.");
 
         } catch (WrongAmountOfElementsException exception) {
             return new Response(false, "Неправильное количество аргументов! Правильное использование: '" + getName() + "'");
-        } catch (Exception e){
+        } catch (Exception e) {
             return new Response(false, e.getMessage());
         }
     }
 
     private int removeGreater(T element) {
-        int count = 0;
-        List<T> flatsToRemove = new ArrayList<>();
+        var collection = collectionManager.getCollection();
+        collectionManager.sortCollection();
 
         // Проверка на пустоту коллекции
-        if (collectionManager.getCollection().isEmpty()) {
+        if (collection == null || collection.isEmpty()) {
             return 0;
         }
 
-        for (T flatElement : collectionManager.getCollection()) {
-            if (flatElement.compareTo(element) > 0) {
-                flatsToRemove.add(flatElement);
-                count++;
-            }
-        }
+        // Использование Stream API для фильтрации и удаления элементов
+        List<T> elementsToRemove = collection.stream()
+                .filter(e -> e.compareTo(element) > 0)
+                .collect(Collectors.toList());
 
-        // Удаление элементов из коллекции
-        for (T flatToRemove : flatsToRemove) {
-            collectionManager.removeFromCollection(flatToRemove);
-        }
+        elementsToRemove.forEach(collectionManager::removeFromCollection);
 
-        return count;
+        return elementsToRemove.size();
     }
 }

@@ -26,6 +26,8 @@ public class Save extends Command {
             return new Response(false, "Неправильное количество аргументов! Правильное использование: '" + getName() + "'");
         }
 
+        collectionManager.sortCollection();
+
         collectionManager.saveCollection();
         return new Response(true, "Коллекция успешно сохранена.");
     }
